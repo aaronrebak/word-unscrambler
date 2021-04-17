@@ -19,6 +19,7 @@ dependencies {
     testImplementation 'io.rest-assured:json-path:4.3.3'
     testImplementation 'io.rest-assured:xml-path:4.3.3'
     testImplementation 'io.rest-assured:spring-mock-mvc:4.3.3'
+    testImplementation 'com.github.trickl:assertj-json:0.2.8'
 }
 
 test {
