@@ -9,5 +9,4 @@ public class GroupingWord {
     Arrays.sort(characters);
     return new String(characters);
   }
-
 }
