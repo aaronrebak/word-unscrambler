@@ -23,11 +23,11 @@ public class WordSquareController {
     this.wordSquareService = wordSquareService;
   }
 
-  @PostMapping("/{wordSquareCount}")
+  @PostMapping("/{wordSquareLength}")
   @ResponseStatus(HttpStatus.CREATED)
   public WordSquareResponse createWordSquare(
-      @Size(min = 1) @PathVariable final Integer wordSquareCount,
+      @Size(min = 1) @PathVariable final Integer wordSquareLength,
       @RequestBody final WordSquareRequest wordSquareRequest) {
-    return this.wordSquareService.createWordSquare(wordSquareCount, wordSquareRequest);
+    return this.wordSquareService.createWordSquare(wordSquareLength, wordSquareRequest);
   }
 }

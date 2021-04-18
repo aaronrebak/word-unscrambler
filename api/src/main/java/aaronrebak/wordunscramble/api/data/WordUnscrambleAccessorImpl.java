@@ -34,7 +34,7 @@ public class WordUnscrambleAccessorImpl implements WordUnscrambleAccessor {
   public Collection<WordDomain> createWords(final WordDomain wordDomain) {
     final List<String> individualLetters = this.stringSplitter
         .split(wordDomain.getCharacters());
-    final Integer wordLength = wordDomain.getCharacterLength();
+    final Integer wordLength = wordDomain.getLength();
 
     final Set<String> generatedCombinations = this.combinationGenerator
         .generateCombinations(individualLetters, wordLength);

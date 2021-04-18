@@ -27,7 +27,7 @@ class WordDomainTransformerUnitTest {
   void willTransformWordSquareCount_CharactersIntoWordDomain() {
     then(this.wordDomainTransformer.toWordDomain(CHARACTER_LENGTH, WORD_SQUARE_REQUEST))
         .isEqualTo(WordDomain.builder()
-            .characterLength(CHARACTER_LENGTH)
+            .length(CHARACTER_LENGTH)
             .characters(CHARACTERS)
             .build()
         );

@@ -7,7 +7,7 @@ import lombok.Value;
 @Builder
 public class WordDomain {
 
-  Integer characterLength;
   String characters;
+  Integer length;
 
 }

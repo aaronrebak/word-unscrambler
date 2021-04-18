@@ -43,7 +43,7 @@ class WordUnscrambleAccessorImplUnitTest {
   private static WordDomain aWordDomain(final String characters, final Integer characterLength) {
     return WordDomain.builder()
         .characters(characters)
-        .characterLength(characterLength)
+        .length(characterLength)
         .build();
   }
 

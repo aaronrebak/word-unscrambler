@@ -26,10 +26,10 @@ public class WordSquareService {
   }
 
   public WordSquareResponse createWordSquare(
-      final Integer wordSquareCount,
+      final Integer wordSquareLength,
       final WordSquareRequest wordSquareRequest) {
     final WordDomain wordDomain = this.wordDomainTransformer
-        .toWordDomain(wordSquareCount, wordSquareRequest);
+        .toWordDomain(wordSquareLength, wordSquareRequest);
 
     final Collection<WordDomain> wordDomains = this.wordUnscrambleAccessor.createWords(wordDomain);
 

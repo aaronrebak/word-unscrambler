@@ -7,6 +7,6 @@ public abstract class SystemTestPaths {
 
   public static final String HEALTH_CHECK_PATH = "/actuator/health";
 
-  public static final String WORDSQUARE_PATH = "/wordsquare/{wordSquareCount}";
+  public static final String WORD_SQUARE_PATH = "/wordsquare/{wordSquareLength}";
 
 }
