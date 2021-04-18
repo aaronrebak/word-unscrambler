@@ -10,14 +10,12 @@ public class CombinationGenerator {
 
   public Set<String> generateCombinations(
       final String[] letters,
-      final Integer count,
-      final String delimiter) {
+      final Integer count) {
     return Generator
         .combination(letters)
         .simple(count)
         .stream()
-        .map(strings -> strings.stream().sorted().collect(Collectors.toList()))
-        .map(strings -> String.join(delimiter, strings))
+        .map(strings -> strings.stream().sorted().collect(Collectors.joining()))
         .collect(Collectors.toSet());
   }
 }

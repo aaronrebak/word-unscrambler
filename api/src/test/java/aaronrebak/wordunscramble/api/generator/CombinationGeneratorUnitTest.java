@@ -13,9 +13,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class CombinationGeneratorUnitTest {
 
-  private static final String EMPTY_DELIMITER = "";
-  private static final String NON_EMPTY_DELIMITER = "|";
-
   private CombinationGenerator combinationGenerator;
 
   @BeforeEach
@@ -25,19 +22,9 @@ class CombinationGeneratorUnitTest {
 
   private static Stream<Arguments> willGenerateACombinationOfStrings() {
     return Stream.of(
-        Arguments.of(List.of("a", "b", "c"), 1, EMPTY_DELIMITER, Set.of("a", "b", "c")),
-        Arguments.of(List.of("a", "b", "c"), 2, EMPTY_DELIMITER,
-            Set.of(
-                String.format("a%sb", EMPTY_DELIMITER),
-                String.format("a%sc", EMPTY_DELIMITER),
-                String.format("b%sc", EMPTY_DELIMITER))
-        ),
-        Arguments.of(List.of("a", "b", "c"), 2, NON_EMPTY_DELIMITER,
-            Set.of(
-                String.format("a%sb", NON_EMPTY_DELIMITER),
-                String.format("a%sc", NON_EMPTY_DELIMITER),
-                String.format("b%sc", NON_EMPTY_DELIMITER))
-        )
+        Arguments.of(List.of("a", "b", "c"), 1, Set.of("a", "b", "c")),
+        Arguments.of(List.of("a", "b", "c"), 2, Set.of("ab", "ac", "bc")),
+        Arguments.of(List.of("a", "b", "c"), 3, Set.of("abc"))
     );
   }
 
@@ -47,10 +34,9 @@ class CombinationGeneratorUnitTest {
   void willGenerateACombinationOfStrings(
       final List<String> letterList,
       final Integer combinationCount,
-      final String delimiter,
       final Set<String> output) {
     then(this.combinationGenerator
-        .generateCombinations(letterList.toArray(String[]::new), combinationCount, delimiter))
+        .generateCombinations(letterList.toArray(String[]::new), combinationCount))
         .containsExactlyInAnyOrderElementsOf(output);
   }
 
