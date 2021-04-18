@@ -5,8 +5,8 @@ import aaronrebak.wordunscramble.api.model.request.WordSquareRequest;
 import aaronrebak.wordunscramble.api.model.response.WordSquareResponse;
 import aaronrebak.wordunscramble.api.service.WordSquareService;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +31,7 @@ public class WordSquareController {
   @PostMapping("/{wordSquareLength}")
   @ResponseStatus(HttpStatus.CREATED)
   public WordSquareResponse createWordSquare(
-      @Size(min = 1) @PathVariable final Integer wordSquareLength,
+      @Min(1) @PathVariable final Integer wordSquareLength,
       @Valid
       @NotNull
       @RequestBody final WordSquareRequest wordSquareRequest) throws WordSquareServiceException {

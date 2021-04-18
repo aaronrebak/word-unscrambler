@@ -2,18 +2,6 @@
 
 This API manages unscrambling words.
 
-## Endpoints
-
-Openapi is used to help describe and document this RESTful APIs.  
-You can visit the Swagger-UI generated documentation (while the application is running) to see
-information by suffixing the relevant host below with `/documentation/word-unscramble-api/ui`:
-
-#### Local
-
-~~~
-http://localhost:8080
-~~~  
-
 ## Coding Style
 
 [IntelliJ](https://www.jetbrains.com/idea) is used as the default IDE.  
@@ -38,6 +26,24 @@ Building to your local docker daemon
 
 Building without a docker daemon
 ./gradle api:jib --image=<IMAGE_NAME>:<TAG>
+~~~  
+
+## Running
+By default, this is a console application.  
+You can also toggle it into a web application by including the following in spring.profiles.include:  
+* as-web
+
+
+## Endpoints
+
+Openapi is used to help describe and document this RESTful APIs.  
+You can visit the Swagger-UI generated documentation (while the application is running) to see
+information by suffixing the relevant host below with `/documentation/word-unscramble-api/ui`:
+
+#### Local
+
+~~~
+http://localhost:8080
 ~~~  
 
 ## Core Testing Libraries
