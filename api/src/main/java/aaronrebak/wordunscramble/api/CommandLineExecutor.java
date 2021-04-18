@@ -53,10 +53,10 @@ public class CommandLineExecutor implements CommandLineRunner {
       }
       requestBuilder.characters(value);
       try {
-        consolePrinter.printResponseToConsoleAsPrettyJson(
+        this.consolePrinter.printResponseToConsoleAsPrettyJson(
             this.wordSquareController.createWordSquare(wordSquareLength, requestBuilder.build()));
       } catch (final WordSquareServiceException exception) {
-        consolePrinter.printMessageToConsoleLine(exception.getMessage());
+        this.consolePrinter.printMessageToConsoleLine(exception.getMessage());
       }
     }
   }
