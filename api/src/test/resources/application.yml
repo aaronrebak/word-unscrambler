@@ -1,0 +1,9 @@
+spring:
+  main:
+    application-type: web
+
+springdoc:
+  swagger-ui:
+    path: /documentation/word-unscramble-api/ui
+  api-docs:
+    path: /documentation/word-unscramble-api/docs
