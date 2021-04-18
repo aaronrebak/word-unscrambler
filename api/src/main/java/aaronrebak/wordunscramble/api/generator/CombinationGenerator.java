@@ -1,5 +1,6 @@
 package aaronrebak.wordunscramble.api.generator;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.paukov.combinatorics3.Generator;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class CombinationGenerator {
 
   public Set<String> generateCombinations(
-      final String[] letters,
+      final Collection<String> letters,
       final Integer count) {
     return Generator
         .combination(letters)

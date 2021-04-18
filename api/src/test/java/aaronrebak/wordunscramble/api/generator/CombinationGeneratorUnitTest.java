@@ -36,7 +36,7 @@ class CombinationGeneratorUnitTest {
       final Integer combinationCount,
       final Set<String> output) {
     then(this.combinationGenerator
-        .generateCombinations(letterList.toArray(String[]::new), combinationCount))
+        .generateCombinations(letterList, combinationCount))
         .containsExactlyInAnyOrderElementsOf(output);
   }
 
