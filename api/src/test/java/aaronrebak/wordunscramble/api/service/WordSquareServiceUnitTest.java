@@ -50,7 +50,7 @@ class WordSquareServiceUnitTest {
         @Mock final WordSquareRequest wordSquareRequest,
         @Mock final WordDomain wordDomain,
         @Mock final Collection<WordDomain> wordDomainCollection,
-        @Mock final WordSquareResponse wordSquareResponse) {
+        @Mock final WordSquareResponse wordSquareResponse) throws Exception {
 
       given(wordDomainTransformer.toWordDomain(this.wordSquareCount, wordSquareRequest))
           .willReturn(wordDomain);
