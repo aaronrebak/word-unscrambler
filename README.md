@@ -1,6 +1,11 @@
 # Word Unscramble API
 
-This API manages unscrambling words.
+This API manages unscrambling words into a wordsquare.
+
+GIVEN a number (int) of n
+AND characters (string) of length nxn
+WHEN sent to the Word Unscramble API
+THEN a response should be returned containing a wordsquare of nxn words
 
 ## Coding Style
 
