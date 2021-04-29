@@ -6,7 +6,6 @@ import aaronrebak.wordunscramble.api.model.domain.WordDomain;
 import aaronrebak.wordunscramble.api.model.response.WordSquareResponse;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

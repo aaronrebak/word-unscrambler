@@ -1,7 +1,6 @@
 package aaronrebak.wordunscramble.api;
 
 import aaronrebak.wordunscramble.api.controller.WordSquareController;
-import aaronrebak.wordunscramble.api.exception.WordSquareServiceException;
 import aaronrebak.wordunscramble.api.model.request.WordSquareRequest;
 import aaronrebak.wordunscramble.api.model.request.WordSquareRequest.WordSquareRequestBuilder;
 import aaronrebak.wordunscramble.api.printer.ConsolePrinter;
