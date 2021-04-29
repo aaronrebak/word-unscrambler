@@ -1,5 +1,6 @@
 package aaronrebak.wordunscramble.api.data;
 
+import aaronrebak.wordunscramble.api.classifier.GroupingWord;
 import aaronrebak.wordunscramble.api.data.repository.DictionaryRepository;
 import aaronrebak.wordunscramble.api.data.splitter.StringSplitter;
 import aaronrebak.wordunscramble.api.factory.WordSquareGeneratorSingletonFactory;
@@ -37,12 +38,12 @@ public class WordUnscrambleAccessorImpl implements WordUnscrambleAccessor {
 
   @Override
   public Collection<WordDomain> createWords(final WordDomain wordDomain) {
-    final List<String> sortedIndividualLetters = this.stringSplitter
-        .split(wordDomain.getCharacters()).stream().sorted().collect(Collectors.toList());
+    final List<String> individualLetters = this.stringSplitter
+        .split(GroupingWord.sortWord(wordDomain.getCharacters()));
     final Integer wordLength = wordDomain.getLength();
 
     final Set<String> generatedLetterCombinations = this.combinationGenerator
-        .generateLetterCombinations(sortedIndividualLetters, wordLength);
+        .generateLetterCombinations(individualLetters, wordLength);
 
     final Set<String> validWords = generatedLetterCombinations.stream()
         .filter(this.dictionaryRepository::doesNaturalWordExist)
@@ -58,8 +59,8 @@ public class WordUnscrambleAccessorImpl implements WordUnscrambleAccessor {
         .filter(list -> {
           final String characters = String.join("", list);
           final List<String> reducedSortedWordSquare = this.stringSplitter
-              .split(characters).stream().sorted().collect(Collectors.toList());
-          return reducedSortedWordSquare.equals(sortedIndividualLetters);
+              .split(GroupingWord.sortWord(characters));
+          return reducedSortedWordSquare.equals(individualLetters);
         })
         .findFirst()
         .orElseThrow();

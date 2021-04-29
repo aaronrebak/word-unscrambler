@@ -15,7 +15,6 @@ import aaronrebak.wordunscramble.api.model.domain.WordDomain;
 import aaronrebak.wordunscramble.api.transformer.WordDomainTransformer;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.assertj.core.api.BDDAssertions;
 import org.assertj.core.api.IterableAssert;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,12 +28,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class WordUnscrambleAccessorImplUnitTest {
 
-  private static final String CHARACTERS = "characters";
+  private static final String CHARACTERS = "abba";
+  private static final String SORTED_CHARACTERS = "aabb";
   private static final Integer CHARACTER_LENGTH = 2;
   private static final List<String> INDIVIDUAL_LETTERS = List
-      .of("a", "b", "b", "a");
-  private static final List<String> SORTED_INDIVIDUAL_LETTERS = INDIVIDUAL_LETTERS.stream().sorted()
-      .collect(Collectors.toList());
+      .of("a", "a", "b", "b");
 
   private static final String GENERATED_COMBINATION_ONE = "generatedCombinationOne";
   private static final String GENERATED_COMBINATION_TWO = "generatedCombinationTwo";
@@ -82,9 +80,9 @@ class WordUnscrambleAccessorImplUnitTest {
   class CreateWordDomains {
 
     private IterableAssert<WordDomain> givenAWordDomainIsProcessed() {
-      given(stringSplitter.split(CHARACTERS)).willReturn(INDIVIDUAL_LETTERS);
+      given(stringSplitter.split(SORTED_CHARACTERS)).willReturn(INDIVIDUAL_LETTERS);
       given(combinationGenerator
-          .generateLetterCombinations(SORTED_INDIVIDUAL_LETTERS, CHARACTER_LENGTH))
+          .generateLetterCombinations(INDIVIDUAL_LETTERS, CHARACTER_LENGTH))
           .willReturn(Set.of(GENERATED_COMBINATION_ONE, GENERATED_COMBINATION_TWO));
       given(dictionaryRepository.doesNaturalWordExist(GENERATED_COMBINATION_ONE))
           .willReturn(true);
@@ -98,7 +96,7 @@ class WordUnscrambleAccessorImplUnitTest {
           .willReturn(wordSquareGenerator);
       given(wordSquareGenerator.generateWordSquare(Set.of(WORD_ONE, WORD_TWO), CHARACTER_LENGTH))
           .willReturn(List.of(List.of(WORD_ONE, WORD_TWO)));
-      given(stringSplitter.split(WORD_ONE + WORD_TWO)).willReturn(INDIVIDUAL_LETTERS);
+      given(stringSplitter.split(SORTED_CHARACTERS)).willReturn(INDIVIDUAL_LETTERS);
       given(wordDomainTransformer.toWordDomain(WORD_ONE)).willReturn(WORD_DOMAIN_ONE);
       given(wordDomainTransformer.toWordDomain(WORD_TWO)).willReturn(WORD_DOMAIN_TWO);
 
