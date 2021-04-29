@@ -43,7 +43,12 @@ public class TreeDomain {
   @Value
   public static class Node {
 
-    Node[] child = new Node[26];
-    List<String> startWith = new ArrayList<>();
+    Node[] child;
+    List<String> startWith;
+
+    public Node() {
+      this.child = new Node[26];
+      this.startWith = new ArrayList<>();
+    }
   }
 }
