@@ -8,11 +8,10 @@ import org.springframework.stereotype.Component;
 public class WordDomainTransformer {
 
   public WordDomain toWordDomain(
-      final Integer wordSquareLength,
       final WordSquareRequest wordSquareRequest) {
     return WordDomain.builder()
         .characters(wordSquareRequest.getCharacters())
-        .length(wordSquareLength)
+        .length(wordSquareRequest.getWordSquareSize())
         .build();
   }
 

@@ -8,11 +8,14 @@ import static org.mockito.Mockito.times;
 
 import aaronrebak.wordunscramble.api.data.repository.DictionaryRepository;
 import aaronrebak.wordunscramble.api.data.splitter.StringSplitter;
+import aaronrebak.wordunscramble.api.factory.WordSquareGeneratorSingletonFactory;
 import aaronrebak.wordunscramble.api.generator.CombinationGenerator;
+import aaronrebak.wordunscramble.api.generator.WordSquareGenerator;
 import aaronrebak.wordunscramble.api.model.domain.WordDomain;
 import aaronrebak.wordunscramble.api.transformer.WordDomainTransformer;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.assertj.core.api.BDDAssertions;
 import org.assertj.core.api.IterableAssert;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,13 +32,15 @@ class WordUnscrambleAccessorImplUnitTest {
   private static final String CHARACTERS = "characters";
   private static final Integer CHARACTER_LENGTH = 2;
   private static final List<String> INDIVIDUAL_LETTERS = List
-      .of("i", "n", "d", "i", "v", "i", "d", "u", "a", "l", "l", "e", "t", "t", "e", "r", "s");
+      .of("a", "b", "b", "a");
+  private static final List<String> SORTED_INDIVIDUAL_LETTERS = INDIVIDUAL_LETTERS.stream().sorted()
+      .collect(Collectors.toList());
 
   private static final String GENERATED_COMBINATION_ONE = "generatedCombinationOne";
   private static final String GENERATED_COMBINATION_TWO = "generatedCombinationTwo";
 
-  private static final String WORD_ONE = "wordOne";
-  private static final String WORD_TWO = "wordTwo";
+  private static final String WORD_ONE = "ab";
+  private static final String WORD_TWO = "ba";
 
   private static final WordDomain WORD_DOMAIN_ONE = mock(WordDomain.class);
   private static final WordDomain WORD_DOMAIN_TWO = mock(WordDomain.class);
@@ -55,6 +60,10 @@ class WordUnscrambleAccessorImplUnitTest {
   private DictionaryRepository dictionaryRepository;
   @Mock
   private WordDomainTransformer wordDomainTransformer;
+  @Mock
+  private WordSquareGeneratorSingletonFactory wordSquareGeneratorSingletonFactory;
+  @Mock
+  private WordSquareGenerator wordSquareGenerator;
 
   private WordUnscrambleAccessor wordUnscrambleAccessor;
 
@@ -64,6 +73,7 @@ class WordUnscrambleAccessorImplUnitTest {
         this.stringSplitter,
         this.combinationGenerator,
         this.dictionaryRepository,
+        this.wordSquareGeneratorSingletonFactory,
         this.wordDomainTransformer
     );
   }
@@ -73,7 +83,8 @@ class WordUnscrambleAccessorImplUnitTest {
 
     private IterableAssert<WordDomain> givenAWordDomainIsProcessed() {
       given(stringSplitter.split(CHARACTERS)).willReturn(INDIVIDUAL_LETTERS);
-      given(combinationGenerator.generateCombinations(INDIVIDUAL_LETTERS, CHARACTER_LENGTH))
+      given(combinationGenerator
+          .generateLetterCombinations(SORTED_INDIVIDUAL_LETTERS, CHARACTER_LENGTH))
           .willReturn(Set.of(GENERATED_COMBINATION_ONE, GENERATED_COMBINATION_TWO));
       given(dictionaryRepository.doesNaturalWordExist(GENERATED_COMBINATION_ONE))
           .willReturn(true);
@@ -83,6 +94,11 @@ class WordUnscrambleAccessorImplUnitTest {
           .willReturn(List.of(WORD_ONE));
       given(dictionaryRepository.getWordsByNaturalWord(GENERATED_COMBINATION_TWO))
           .willReturn(List.of(WORD_TWO));
+      given(wordSquareGeneratorSingletonFactory.getWordSquareGenerator(Set.of(WORD_ONE, WORD_TWO)))
+          .willReturn(wordSquareGenerator);
+      given(wordSquareGenerator.generateWordSquare(Set.of(WORD_ONE, WORD_TWO), CHARACTER_LENGTH))
+          .willReturn(List.of(List.of(WORD_ONE, WORD_TWO)));
+      given(stringSplitter.split(WORD_ONE + WORD_TWO)).willReturn(INDIVIDUAL_LETTERS);
       given(wordDomainTransformer.toWordDomain(WORD_ONE)).willReturn(WORD_DOMAIN_ONE);
       given(wordDomainTransformer.toWordDomain(WORD_TWO)).willReturn(WORD_DOMAIN_TWO);
 
@@ -95,13 +111,6 @@ class WordUnscrambleAccessorImplUnitTest {
     @BeforeEach
     void beforeEach() {
       this.thenCreateWordDomainsResult = this.givenAWordDomainIsProcessed();
-    }
-
-    @Test
-    @DisplayName("DictionaryRepository interaction is limited by character length")
-    void dictionaryRepositoryInteractionIsLimitedByCharacterLength() {
-      then(dictionaryRepository).should(times(CHARACTER_LENGTH))
-          .getWordsByNaturalWord(anyString());
     }
 
     @Test

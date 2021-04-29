@@ -27,11 +27,10 @@ public class WordSquareService {
   }
 
   public WordSquareResponse createWordSquare(
-      final Integer wordSquareLength,
       final WordSquareRequest wordSquareRequest) throws WordSquareServiceException {
     try {
       final WordDomain wordDomain = this.wordDomainTransformer
-          .toWordDomain(wordSquareLength, wordSquareRequest);
+          .toWordDomain(wordSquareRequest);
 
       final Collection<WordDomain> wordDomains = this.wordUnscrambleAccessor.createWords(wordDomain);
 

@@ -38,9 +38,8 @@ public class CommandLineExecutor implements CommandLineRunner {
       if (value.equals("T")) {
         break;
       }
-      int wordSquareLength;
       try {
-        wordSquareLength = Integer.parseInt(value);
+        requestBuilder.wordSquareSize(Integer.parseInt(value));
       } catch (NumberFormatException e) {
         consolePrinter.printMessageToConsoleLine("That is not a known number. Try again...");
         continue;
@@ -54,8 +53,8 @@ public class CommandLineExecutor implements CommandLineRunner {
       requestBuilder.characters(value);
       try {
         this.consolePrinter.printResponseToConsoleAsPrettyJson(
-            this.wordSquareController.createWordSquare(wordSquareLength, requestBuilder.build()));
-      } catch (final WordSquareServiceException exception) {
+            this.wordSquareController.createWordSquare(requestBuilder.build()));
+      } catch (final Exception exception) {
         this.consolePrinter.printMessageToConsoleLine(exception.getMessage());
       }
     }

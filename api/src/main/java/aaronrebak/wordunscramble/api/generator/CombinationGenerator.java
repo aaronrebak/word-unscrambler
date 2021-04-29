@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CombinationGenerator {
 
-  public Set<String> generateCombinations(
+  public Set<String> generateLetterCombinations(
       final Collection<String> letters,
       final Integer count) {
     return Generator

@@ -13,7 +13,7 @@ class WordDomainTransformerUnitTest {
   private static final Integer CHARACTER_LENGTH = 1;
   private static final String CHARACTERS = "characters";
   private static final WordSquareRequest WORD_SQUARE_REQUEST = WordSquareRequest.builder()
-      .characters(CHARACTERS).build();
+      .characters(CHARACTERS).wordSquareSize(CHARACTER_LENGTH).build();
 
   private WordDomainTransformer wordDomainTransformer;
 
@@ -25,7 +25,7 @@ class WordDomainTransformerUnitTest {
   @Test
   @DisplayName("Will transform wordSquareCount, characters into wordDomain")
   void willTransformWordSquareCount_CharactersIntoWordDomain() {
-    then(this.wordDomainTransformer.toWordDomain(CHARACTER_LENGTH, WORD_SQUARE_REQUEST))
+    then(this.wordDomainTransformer.toWordDomain(WORD_SQUARE_REQUEST))
         .isEqualTo(WordDomain.builder()
             .length(CHARACTER_LENGTH)
             .characters(CHARACTERS)

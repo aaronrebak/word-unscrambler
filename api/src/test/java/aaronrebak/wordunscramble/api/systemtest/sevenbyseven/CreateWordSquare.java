@@ -1,6 +1,5 @@
 package aaronrebak.wordunscramble.api.systemtest.sevenbyseven;
 
-import static aaronrebak.wordunscramble.api.systemtest.sevenbyseven.CreateWordSquare.WORD_SQUARE_LENGTH;
 import static aaronrebak.wordunscramble.api.utility.JsonAssertionWrapper.thenJson;
 import static aaronrebak.wordunscramble.api.utility.ResourceReader.readFileToString;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
@@ -20,18 +19,15 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WordUnscrambleSystemTest
 @DisplayName(
-    "When a call to create a " + WORD_SQUARE_LENGTH + " by " + WORD_SQUARE_LENGTH
-        + " WordSquare is made - POST " + SystemTestPaths.WORD_SQUARE_PATH)
+    "When a call to create a 7 by 7 WordSquare is made - POST " + SystemTestPaths.WORD_SQUARE_PATH)
 class CreateWordSquare {
-
-  protected static final int WORD_SQUARE_LENGTH = 7;
 
   private MockMvcResponse whenACallIsMadeToCreateAWordSquare(final String body) {
     return given()
         .contentType(ContentType.JSON)
         .body(body)
         .when()
-        .post(SystemTestPaths.WORD_SQUARE_PATH, WORD_SQUARE_LENGTH);
+        .post(SystemTestPaths.WORD_SQUARE_PATH);
   }
 
   private MockMvcResponse response;
@@ -59,7 +55,6 @@ class CreateWordSquare {
   void createWordSquareBody() {
     final String responseJson = this.response.then().extract().asString();
     thenJson(responseJson)
-        .allowingAnyArrayOrdering()
         .isSameJsonAs(
             readFileToString(
                 "system.test.data/POST/wordsquare/7_by_7/response/response.body.json")

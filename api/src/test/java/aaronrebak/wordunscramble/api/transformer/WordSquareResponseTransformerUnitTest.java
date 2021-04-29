@@ -23,7 +23,7 @@ class WordSquareResponseTransformerUnitTest {
   }
 
   private static WordSquareResponse aWordSquareResponse(final String... characters) {
-    return WordSquareResponse.builder().words(Set.of(characters)).build();
+    return WordSquareResponse.builder().words(List.of(characters)).build();
   }
 
   @BeforeEach

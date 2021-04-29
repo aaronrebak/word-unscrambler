@@ -14,7 +14,7 @@ public class WordSquareResponseTransformer {
     return WordSquareResponse.builder()
         .words(wordDomains.stream()
             .map(WordDomain::getCharacters)
-            .collect(Collectors.toSet()))
+            .collect(Collectors.toList()))
         .build();
   }
 
