@@ -6,7 +6,6 @@ import aaronrebak.wordunscramble.api.model.domain.WordDomain;
 import aaronrebak.wordunscramble.api.model.response.WordSquareResponse;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ class WordSquareResponseTransformerUnitTest {
   }
 
   private static WordSquareResponse aWordSquareResponse(final String... characters) {
-    return WordSquareResponse.builder().words(Set.of(characters)).build();
+    return WordSquareResponse.builder().words(List.of(characters)).build();
   }
 
   @BeforeEach

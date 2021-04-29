@@ -55,8 +55,6 @@ class WordSquareServiceUnitTest {
   @Nested
   class CreateWordSquare {
 
-    private final Integer wordSquareCount = 1;
-
     @Test
     @DisplayName("Will create WordSquareResponse")
     void wilLCreateWordSquareResponse(
@@ -65,13 +63,13 @@ class WordSquareServiceUnitTest {
         @Mock final Collection<WordDomain> wordDomainCollection,
         @Mock final WordSquareResponse wordSquareResponse) throws Exception {
 
-      given(wordDomainTransformer.toWordDomain(this.wordSquareCount, wordSquareRequest))
+      given(wordDomainTransformer.toWordDomain(wordSquareRequest))
           .willReturn(wordDomain);
       given(wordUnscrambleAccessor.createWords(wordDomain)).willReturn(wordDomainCollection);
       given(wordSquareResponseTransformer.toWordSquareResponse(wordDomainCollection))
           .willReturn(wordSquareResponse);
 
-      then(wordSquareService.createWordSquare(this.wordSquareCount, wordSquareRequest))
+      then(wordSquareService.createWordSquare(wordSquareRequest))
           .isEqualTo(wordSquareResponse);
     }
 
@@ -86,11 +84,11 @@ class WordSquareServiceUnitTest {
         final Class<? extends Exception> inputException,
         final Class<? extends Exception> outputException,
         @Mock final WordSquareRequest wordSquareRequest) {
-      given(wordDomainTransformer.toWordDomain(this.wordSquareCount, wordSquareRequest))
+      given(wordDomainTransformer.toWordDomain(wordSquareRequest))
           .willThrow(inputException);
 
       thenExceptionOfType(outputException).isThrownBy(
-          () -> wordSquareService.createWordSquare(this.wordSquareCount, wordSquareRequest));
+          () -> wordSquareService.createWordSquare(wordSquareRequest));
     }
 
   }

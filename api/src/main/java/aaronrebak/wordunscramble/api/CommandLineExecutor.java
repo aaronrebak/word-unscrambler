@@ -1,7 +1,6 @@
 package aaronrebak.wordunscramble.api;
 
 import aaronrebak.wordunscramble.api.controller.WordSquareController;
-import aaronrebak.wordunscramble.api.exception.WordSquareServiceException;
 import aaronrebak.wordunscramble.api.model.request.WordSquareRequest;
 import aaronrebak.wordunscramble.api.model.request.WordSquareRequest.WordSquareRequestBuilder;
 import aaronrebak.wordunscramble.api.printer.ConsolePrinter;
@@ -11,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(prefix = "spring.main", name = "web-application-type", havingValue = "command")
+@ConditionalOnProperty(prefix = "spring.main", name = "application-type", havingValue = "command")
 public class CommandLineExecutor implements CommandLineRunner {
 
   private final WordSquareController wordSquareController;
@@ -38,9 +37,8 @@ public class CommandLineExecutor implements CommandLineRunner {
       if (value.equals("T")) {
         break;
       }
-      int wordSquareLength;
       try {
-        wordSquareLength = Integer.parseInt(value);
+        requestBuilder.wordSquareSize(Integer.parseInt(value));
       } catch (NumberFormatException e) {
         consolePrinter.printMessageToConsoleLine("That is not a known number. Try again...");
         continue;
@@ -54,11 +52,13 @@ public class CommandLineExecutor implements CommandLineRunner {
       requestBuilder.characters(value);
       try {
         this.consolePrinter.printResponseToConsoleAsPrettyJson(
-            this.wordSquareController.createWordSquare(wordSquareLength, requestBuilder.build()));
-      } catch (final WordSquareServiceException exception) {
+            this.wordSquareController.createWordSquare(requestBuilder.build()));
+      } catch (final Exception exception) {
         this.consolePrinter.printMessageToConsoleLine(exception.getMessage());
       }
     }
+
+    System.exit(0);
   }
 
 }

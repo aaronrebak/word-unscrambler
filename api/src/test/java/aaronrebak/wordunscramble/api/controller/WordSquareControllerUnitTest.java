@@ -4,7 +4,6 @@ import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.never;
 
 import aaronrebak.wordunscramble.api.controller.handler.ConstraintViolationExceptionHandler;
@@ -32,11 +31,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class WordSquareControllerUnitTest {
 
-  private static final String WORD_SQUARE_PATH = "/wordsquare/{wordSquareLength}";
+  private static final String WORD_SQUARE_PATH = "/wordsquare";
 
-  private static WordSquareRequest aWordSquareRequest(final String characters) {
+  private static WordSquareRequest aWordSquareRequest(final String characters,
+      final Integer wordSquareSize) {
     return WordSquareRequest.builder()
         .characters(characters)
+        .wordSquareSize(wordSquareSize)
         .build();
   }
 
@@ -64,7 +65,7 @@ class WordSquareControllerUnitTest {
   @Nested
   class CreateWordSquare {
 
-    private final Integer wordSquareLength = 1;
+    private final Integer wordSquareSize = 2;
 
     private MockMvcResponse givenPostRequestForCreatingWordSquare(
         final WordSquareRequest wordSquareRequest,
@@ -82,9 +83,9 @@ class WordSquareControllerUnitTest {
     void willReturnWordSquareResponse(
         @Mock final WordSquareRequest wordSquareRequest,
         @Mock final WordSquareResponse wordSquareResponse) throws Exception {
-      BDDMockito.given(wordSquareService.createWordSquare(wordSquareLength, wordSquareRequest))
+      BDDMockito.given(wordSquareService.createWordSquare(wordSquareRequest))
           .willReturn(wordSquareResponse);
-      then(wordSquareController.createWordSquare(wordSquareLength, wordSquareRequest))
+      then(wordSquareController.createWordSquare(wordSquareRequest))
           .isEqualTo(wordSquareResponse);
     }
 
@@ -92,7 +93,8 @@ class WordSquareControllerUnitTest {
     @DisplayName("When a WordSquareResponse is returned by the service")
     class WordSquareReturned {
 
-      private final WordSquareRequest wordSquareRequest = aWordSquareRequest("characters");
+      private final WordSquareRequest wordSquareRequest = aWordSquareRequest("abcd",
+          wordSquareSize);
       private final WordSquareResponse serviceResult = aWordSquareResponse("wordOne", "wordTwo");
 
       private MockMvcResponse response;
@@ -100,19 +102,19 @@ class WordSquareControllerUnitTest {
       @BeforeEach
       void beforeEach() throws Exception {
         BDDMockito
-            .given(wordSquareService.createWordSquare(wordSquareLength, wordSquareRequest))
+            .given(wordSquareService.createWordSquare(wordSquareRequest))
             .willReturn(this.serviceResult);
 
         this.response = givenPostRequestForCreatingWordSquare(
             wordSquareRequest,
-            wordSquareLength);
+            wordSquareSize);
       }
 
       @Test
       @DisplayName("Will call the controller method")
       void willCallControllerMethod() throws Exception {
         BDDMockito.then(wordSquareService).should()
-            .createWordSquare(wordSquareLength, wordSquareRequest);
+            .createWordSquare(wordSquareRequest);
       }
 
       @Test
@@ -133,7 +135,8 @@ class WordSquareControllerUnitTest {
     @DisplayName("When an invalid request is made")
     class InvalidRequest {
 
-      private final WordSquareRequest wordSquareRequest = aWordSquareRequest("!!invalid!!");
+      private final WordSquareRequest wordSquareRequest = aWordSquareRequest("!!invalid!!",
+          wordSquareSize);
 
       private MockMvcResponse response;
 
@@ -141,14 +144,14 @@ class WordSquareControllerUnitTest {
       void beforeEach() {
         this.response = givenPostRequestForCreatingWordSquare(
             wordSquareRequest,
-            wordSquareLength);
+            wordSquareSize);
       }
 
       @Test
       @DisplayName("Will not call the controller method")
       void willNotCallControllerMethod() throws Exception {
         BDDMockito.then(wordSquareService).should(never())
-            .createWordSquare(anyInt(), any(WordSquareRequest.class));
+            .createWordSquare(any(WordSquareRequest.class));
       }
 
       @Test
@@ -162,25 +165,26 @@ class WordSquareControllerUnitTest {
     @DisplayName("When a technical exception is thrown by the service")
     class TechnicalException {
 
-      private final WordSquareRequest wordSquareRequest = aWordSquareRequest("characters");
+      private final WordSquareRequest wordSquareRequest = aWordSquareRequest("abcd",
+          wordSquareSize);
 
       private MockMvcResponse response;
 
       @BeforeEach
       void beforeEach() throws Exception {
         BDDMockito
-            .given(wordSquareService.createWordSquare(wordSquareLength, this.wordSquareRequest))
+            .given(wordSquareService.createWordSquare(this.wordSquareRequest))
             .willThrow(WordSquareServiceException.class);
 
         this.response = givenPostRequestForCreatingWordSquare(this.wordSquareRequest,
-            wordSquareLength);
+            wordSquareSize);
       }
 
       @Test
       @DisplayName("Will call the controller method")
       void willCallControllerMethod() throws Exception {
         BDDMockito.then(wordSquareService).should()
-            .createWordSquare(wordSquareLength, this.wordSquareRequest);
+            .createWordSquare(this.wordSquareRequest);
       }
 
       @Test
