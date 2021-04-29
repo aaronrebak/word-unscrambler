@@ -2,6 +2,7 @@ package aaronrebak.wordunscramble.api.model.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import lombok.Value;
 
@@ -28,19 +29,14 @@ public class TreeDomain {
   }
 
   public List<String> findByPrefix(final String prefix) {
-    final List<String> candidates = new ArrayList<>();
-    if (prefix == null || prefix.length() == 0) {
-      return candidates;
-    }
     Node node = rootNode;
     for (char character : prefix.toCharArray()) {
       int index = Math.subtractExact(character, CHAR_A);
       if (node.getChild()[index] == null) {
-        return candidates;
+        return Collections.emptyList();
       }
       node = node.getChild()[index];
     }
-    candidates.addAll(node.getStartWith());
     return node.getStartWith();
   }
 
