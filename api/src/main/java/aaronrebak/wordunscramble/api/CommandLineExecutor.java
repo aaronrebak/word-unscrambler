@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(prefix = "spring.main", name = "web-application-type", havingValue = "command")
+@ConditionalOnProperty(prefix = "spring.main", name = "application-type", havingValue = "command")
 public class CommandLineExecutor implements CommandLineRunner {
 
   private final WordSquareController wordSquareController;
@@ -57,6 +57,8 @@ public class CommandLineExecutor implements CommandLineRunner {
         this.consolePrinter.printMessageToConsoleLine(exception.getMessage());
       }
     }
+
+    System.exit(0);
   }
 
 }
